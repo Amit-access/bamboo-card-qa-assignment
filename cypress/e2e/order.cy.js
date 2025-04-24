@@ -10,8 +10,8 @@ describe("Place Order with Multiple Products", () => {
       products = data.products;
     });
 
-    // Login
-    cy.login();
+    // Login using environment credentials
+    cy.loginWithEnvCredentials();
 
     // After successful login, verify we're on the account page
     cy.url().should("include", "/customer/account");
