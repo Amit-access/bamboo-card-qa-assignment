@@ -12,7 +12,8 @@ describe("Wishlist Functionality", () => {
 
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.login();
+    //login using environment credentials
+    cy.loginWithEnvCredentials();
   });
 
   it("should add products in Wishlist and checkout", () => {
