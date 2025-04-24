@@ -1,0 +1,22 @@
+{
+    "products": [
+        {
+            "name": "Breathe-Easy Tank",
+            "url": "/breathe-easy-tank.html",
+            "size": "S",
+            "color": "Purple",
+            "price": "34.00",
+            "quantity": 1
+        },
+        
+        {
+            "name": "Radiant Tee",
+            "url": "/radiant-tee.html",
+            "size": "M",
+            "color": "Blue",
+            "price": "22.00",
+            "quantity": 2
+        }
+        
+    ]
+}
