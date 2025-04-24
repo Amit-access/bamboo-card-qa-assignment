@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "Petstore API Automation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Pet",
+      "item": [
+        {
+          "name": "POST - Create a Pet",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 0,\n  \"category\": {\n    \"id\": 0,\n    \"name\": \"dog\"\n  },\n  \"name\": \"Tommy\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"friendly\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+            },
+            "url": {
+              "raw": "https://petstore.swagger.io/v2/pet",
+              "protocol": "https",
+              "host": [
+                "petstore",
+                "swagger",
+                "io"
+              ],
+              "path": [
+                "v2",
+                "pet"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Pet ID is created\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.id).to.be.a('number');",
+                  "});",
+                  "",
+                  "pm.environment.set(\"petId\", pm.response.json().id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Get Pet Details",
+      "item": [
+        {
+          "name": "GET - Fetch the Pet Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://petstore.swagger.io/v2/pet/{{petId}}",
+              "protocol": "https",
+              "host": [
+                "petstore",
+                "swagger",
+                "io"
+              ],
+              "path": [
+                "v2",
+                "pet",
+                "{{petId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Correct Pet name returned\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.name).to.eql(\"Tommy\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
