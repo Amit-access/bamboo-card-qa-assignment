@@ -8,7 +8,6 @@
             "price": "34.00",
             "quantity": 1
         },
-        
         {
             "name": "Radiant Tee",
             "url": "/radiant-tee.html",
@@ -17,6 +16,5 @@
             "price": "22.00",
             "quantity": 2
         }
-        
     ]
 }

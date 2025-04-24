@@ -16,3 +16,14 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 import 'cypress-mochawesome-reporter/register';
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // Ignore specific TypeErrors
+    if (
+      err.message.includes('AddFotoramaVideoEvents is not a function') ||
+      err.message.includes('Cannot convert undefined or null to object') ||
+      err.message.includes('Magento_Ui/js/lib/core/class')
+    ) {
+      return false; // Prevent test failure
+    }
+  });
