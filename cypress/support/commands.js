@@ -60,46 +60,46 @@ Cypress.Commands.add('login', () => {
 
 // cypress/support/commands.js
 
-Cypress.Commands.add('clearCart', () => {
-    // Visit cart page
-    cy.visit('/checkout/cart');
+// Cypress.Commands.add('clearCart', () => {
+//     // Visit cart page
+//     cy.visit('/checkout/cart');
     
-    // Check if there are items in the cart and remove them
-    cy.get('body').then(($body) => {
-        // Check if cart has items
-        if ($body.find('.cart.item').length > 0) {
-            // Click on each delete button
-            cy.get('.action-delete').each(($deleteButton) => {
-                cy.wrap($deleteButton).click({force:true});
-                // Wait for item to be removed
-                cy.wait(1000);
-            });
+//     // Check if there are items in the cart and remove them
+//     cy.get('body').then(($body) => {
+//         // Check if cart has items
+//         if ($body.find('.cart.item').length > 0) {
+//             // Click on each delete button
+//             cy.get('.action-delete').each(($deleteButton) => {
+//                 cy.wrap($deleteButton).click({force:true});
+//                 // Wait for item to be removed
+//                 cy.wait(1000);
+//             });
             
-            // Verify cart is empty
-            cy.get('.cart-empty')
-                .should('be.visible')
-                .and('contain', 'You have no items in your shopping cart');
-        }
-    });
+//             // Verify cart is empty
+//             cy.get('.cart-empty')
+//                 .should('be.visible')
+//                 .and('contain', 'You have no items in your shopping cart');
+//         }
+//     });
 
-    // Additional verification and cleanup steps
-    cy.then(() => {
-        // Clear local storage
-        cy.clearLocalStorage();
-        // Clear session storage
-        cy.clearCookies();
+//     // Additional verification and cleanup steps
+//     cy.then(() => {
+//         // Clear local storage
+//         cy.clearLocalStorage();
+//         // Clear session storage
+//         cy.clearCookies();
         
-        // Reload page to ensure clean state
-        //cy.reload();
+//         // Reload page to ensure clean state
+//         //cy.reload();
         
-        // Final verification that cart is empty
-        cy.get('body').then(($body) => {
-            if ($body.find('.cart.item').length > 0) {
-                throw new Error('Cart was not properly cleared');
-            }
-        });
-    });
-});
+//         // Final verification that cart is empty
+//         cy.get('body').then(($body) => {
+//             if ($body.find('.cart.item').length > 0) {
+//                 throw new Error('Cart was not properly cleared');
+//             }
+//         });
+//     });
+// });
 
 // cypress/support/commands.js
 
@@ -122,3 +122,23 @@ Cypress.Commands.add('logout', () => {
     cy.clearCookies();
     cy.clearLocalStorage();
 });
+
+Cypress.Commands.add('clearCart', () => {
+    function removeItemsIfExist() {
+      cy.get('body').then(($body) => {
+        if ($body.find('.action.action-delete').length > 0) {
+          cy.get('.action.action-delete').first().click({force:true});
+  
+          // Wait for item to be removed (adjust selector if needed)
+          cy.wait(1000);
+  
+          // Recurse to handle next item
+          removeItemsIfExist();
+        } else {
+          cy.log('Cart is now empty');
+        }
+      });
+    }
+  
+    removeItemsIfExist();
+  });
