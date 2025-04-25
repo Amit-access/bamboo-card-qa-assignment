@@ -58,50 +58,29 @@ Cypress.Commands.add('login', () => {
     });
 });
 
-// cypress/support/commands.js
-
-// Cypress.Commands.add('clearCart', () => {
-//     // Visit cart page
-//     cy.visit('/checkout/cart');
-    
-//     // Check if there are items in the cart and remove them
-//     cy.get('body').then(($body) => {
-//         // Check if cart has items
-//         if ($body.find('.cart.item').length > 0) {
-//             // Click on each delete button
-//             cy.get('.action-delete').each(($deleteButton) => {
-//                 cy.wrap($deleteButton).click({force:true});
-//                 // Wait for item to be removed
-//                 cy.wait(1000);
-//             });
-            
-//             // Verify cart is empty
-//             cy.get('.cart-empty')
-//                 .should('be.visible')
-//                 .and('contain', 'You have no items in your shopping cart');
-//         }
-//     });
-
-//     // Additional verification and cleanup steps
-//     cy.then(() => {
-//         // Clear local storage
-//         cy.clearLocalStorage();
-//         // Clear session storage
-//         cy.clearCookies();
-        
-//         // Reload page to ensure clean state
-//         //cy.reload();
-        
-//         // Final verification that cart is empty
-//         cy.get('body').then(($body) => {
-//             if ($body.find('.cart.item').length > 0) {
-//                 throw new Error('Cart was not properly cleared');
-//             }
-//         });
-//     });
-// });
-
-// cypress/support/commands.js
+Cypress.Commands.add('loginWithEnvCredentials', () => {
+    // Visit the login page
+    cy.visit('/customer/account/login');
+  
+    // Read credentials from Cypress environment variables
+    const username = Cypress.env('BAMBOO_USERNAME');
+    const password = Cypress.env('BAMBOO_PASSWORD');
+  cy.wait(1000)
+    // Type credentials
+    cy.get('#email')
+      .should('be.visible')
+      .type(username);
+  
+    cy.get('#pass')
+      .should('be.visible')
+      .type(password);
+  
+    // Submit login form
+    cy.get('#send2').click();
+  
+    // Confirm successful login
+    cy.url().should('include', '/customer/account');
+  });
 
 Cypress.Commands.add('logout', () => {
     // Click on customer menu

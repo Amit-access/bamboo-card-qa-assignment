@@ -2,8 +2,8 @@
   "newUser": {
     "firstName": "Test",
     "lastName": "User",
-    "email": "testuser214@example.com",
-    "password": "Test@123456",
-    "confirmPassword": "Test@123456"
+    "email": "",
+    "password": "",
+    "confirmPassword": ""
   }
 }

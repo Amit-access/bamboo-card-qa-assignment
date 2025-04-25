@@ -34,8 +34,12 @@ describe("Wishlist Functionality", () => {
       .should("have.length", wishlistProducts.length);
 
     WishlistPage.addAllToCart();
-    ProductPage.navigateToCart();
+    ProductPage.navigateToCart({ duration: 5000 });
     CartPage.elements.checkoutButton().should("be.visible");
+
+    //  CartPage.elements.checkoutButton().click();
+    //  Then assert you’re on the checkout page
+    //  cy.url().should('include', '/checkout');
   });
 
   after(() => {
