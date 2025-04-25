@@ -7,11 +7,18 @@ describe("User Registration and Login Test", () => {
 
   it("should successfully register a new user", () => {
     cy.fixture("users").then((userData) => {
-      // Dynamically update the email with a timestamp
+      // Dynamically update the email with timestamp
       const timestamp = Date.now();
-      userData.newUser.email = `testuser${timestamp}@example.com`;
+      const dynamicEmail = `testuser${timestamp}@example.com`;
 
-      RegistrationPage.fillRegistrationForm(userData.newUser);
+      const user = {
+        ...userData.newUser,
+        email: dynamicEmail,
+        password: Cypress.env("NEW_USER_PASSWORD"),
+        confirmPassword: Cypress.env("NEW_USER_PASSWORD")
+      };
+
+      RegistrationPage.fillRegistrationForm(user);
       RegistrationPage.submitForm();
 
       // Verify successful registration
@@ -20,9 +27,9 @@ describe("User Registration and Login Test", () => {
         .and("contain", "Thank you for registering");
     });
   });
+
   after(() => {
     cy.logout();
-    // Now it's safe to clear cookies and storage
     cy.clearCookies();
     cy.clearLocalStorage();
   });
